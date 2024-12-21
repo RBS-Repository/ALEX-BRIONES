@@ -144,10 +144,16 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
+    z-index: 5;
+    pointer-events: none; /* Allow clicks to pass through */
 }
 
 .hero-text-wrapper {
     max-width: 600px;
+    position: relative;
+    z-index: 5;
+    pointer-events: auto; /* Re-enable clicks for text and buttons */
 }
 
 .hero-title {
@@ -3102,4 +3108,92 @@ body.loading {
     .contact-form-container {
         padding: 15px;
     }
+}
+
+/* Hero Social Links */
+.hero-social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 1s forwards;
+    position: relative;
+    z-index: 100; /* Increased z-index */
+    pointer-events: all; /* Ensure clicks are registered */
+}
+
+.hero-social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    position: relative; /* Added position relative */
+    z-index: 101; /* Higher than parent */
+    pointer-events: all;
+    text-decoration: none; /* Added to remove underline */
+}
+
+.hero-social-link:hover {
+    background: var(--accent-color);
+    color: var(--text-dark);
+    transform: translateY(-3px);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .hero-social-links {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .hero-social-link {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+}
+
+/* Update footer social link styles */
+.social-link {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none; /* Added to remove underline */
+    transition: all 0.3s ease;
+}
+
+/* Mobile adjustments for stats spacing */
+@media (max-width: 768px) {
+    .stats-row {
+        flex-direction: column;
+        gap: 10px; /* Reduced from 2rem to 10px */
+        margin-top: 20px; /* Reduced top margin */
+    }
+
+    .stat-item {
+        padding: 8px; /* Reduced padding */
+        gap: 2px; /* Reduced gap between number and label */
+    }
+
+    .stat-number {
+        margin-bottom: 0; /* Remove bottom margin */
+        line-height: 1; /* Tighter line height */
+    }
+
+    .stat-label {
+        line-height: 1.2; /* Tighter line height */
+    }
+}
 }
