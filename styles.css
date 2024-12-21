@@ -2997,3 +2997,109 @@ body.loading {
         font-size: 0.9rem;
     }
 }
+
+/* Contact section mobile styles */
+@media (max-width: 768px) {
+    .contact {
+        padding: 60px 0;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 0 15px;
+    }
+
+    .contact-info-container {
+        text-align: center;
+    }
+
+    .contact-info {
+        gap: 20px;
+    }
+
+    .contact-item {
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .contact-item i {
+        font-size: 1.2rem;
+    }
+
+    .contact-item .info h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .contact-item .info p,
+    .contact-item .info a {
+        font-size: 0.9rem;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    .contact-form-container {
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .form-header {
+        margin-bottom: 20px;
+    }
+
+    .form-header h3 {
+        font-size: 1.2rem;
+    }
+
+    .form-header p {
+        font-size: 0.9rem;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Even smaller screens */
+@media (max-width: 480px) {
+    .contact {
+        padding: 40px 0;
+    }
+
+    .contact-grid {
+        padding: 0 10px;
+    }
+
+    .cta-button {
+        min-width: 110px;
+        padding: 8px 15px;
+        font-size: 0.85rem;
+    }
+
+    .contact-form-container {
+        padding: 15px;
+    }
+}
