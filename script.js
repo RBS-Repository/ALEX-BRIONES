@@ -165,3 +165,25 @@ window.addEventListener('click', function(event) {
         document.body.style.overflow = 'auto';
     }
 });
+
+// Add scroll functionality to CTA buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const propertyButton = document.querySelector('.cta-button.primary');
+    const contactButton = document.querySelector('.cta-button.secondary');
+
+    propertyButton.addEventListener('click', function() {
+        const propertiesSection = document.querySelector('.properties');
+        propertiesSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+
+    contactButton.addEventListener('click', function() {
+        const contactSection = document.querySelector('.contact');
+        contactSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+});
