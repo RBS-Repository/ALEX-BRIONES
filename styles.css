@@ -2076,6 +2076,9 @@ body {
     background: var(--primary-color);
     color: white;
     padding: 80px 0 0;
+    opacity: 1;
+    transform: none;
+    transition: none;
 }
 
 .footer-grid {
@@ -2312,8 +2315,7 @@ body {
 .properties,
 .meet-team,
 .testimonials,
-.contact,
-.footer {
+.contact {
     opacity: 0;
     transform: translateY(30px);
     transition: all 1s ease;
@@ -2326,8 +2328,7 @@ body {
 .properties.active,
 .meet-team.active,
 .testimonials.active,
-.contact.active,
-.footer.active {
+.contact.active {
     opacity: 1;
     transform: translateY(0);
 }
@@ -3207,9 +3208,9 @@ body.loading {
 .video-container {
     position: relative;
     width: 100%;
-    max-width: 800px; /* Reduced from 900px */
+    max-width: 800px;
     margin: 40px auto;
-    padding-bottom: 45%; /* Reduced from 56.25% for shorter height */
+    padding-bottom: 35%;
     height: 0;
     overflow: hidden;
     border-radius: 15px;
@@ -3341,7 +3342,7 @@ body.loading {
     width: 100%;
     max-width: 800px;
     margin: 40px auto;
-    padding-bottom: 35%; /* Reduced from 45% for shorter height */
+    padding-bottom: 35%;
     height: 0;
     overflow: hidden;
     border-radius: 15px;
@@ -3356,5 +3357,43 @@ body.loading {
 
     .video-intro .mission-card {
         padding: 20px; /* Further reduced padding for mobile */
+    }
+}
+
+/* Video container styles */
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 40px auto;
+    padding-bottom: 35%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile adjustments for video */
+@media (max-width: 768px) {
+    .video-container {
+        padding-bottom: 56.25%; /* Standard 16:9 aspect ratio */
+        margin: 20px auto;
+        max-width: 100%;
+    }
+
+    .video-intro {
+        padding: 40px 0;
+    }
+
+    .video-container iframe {
+        border-radius: 10px;
+    }
+}
+
+/* Even smaller screens */
+@media (max-width: 480px) {
+    .video-container {
+        padding-bottom: 56.25%;
+        margin: 15px auto;
     }
 }
