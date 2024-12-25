@@ -78,22 +78,62 @@ if (viewMoreBtn) {
     });
 }
 
-// Add this to your script.js
+// Contact form handler
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Collect form data
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    // Here you would typically send the data to your server
-    console.log('Form submitted:', data);
-    
-    // Show success message (customize as needed)
-    alert('Salamat sa iyong mensahe! Kokontakin ka namin sa lalong madaling panahon.');
-    
-    // Reset form
-    this.reset();
+    const submitBtn = this.querySelector('.submit-btn');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
+    // Get form data
+    const formData = {
+        name: this.querySelector('#name').value,
+        email: this.querySelector('#email').value,
+        phone: this.querySelector('#phone').value,
+        message: this.querySelector('#message').value
+    };
+
+    // Send to our server
+    fetch('http://localhost:3000/send-email', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Replace alert with SweetAlert2
+            Swal.fire({
+                title: 'Salamat!',
+                text: 'Natanggap na namin ang iyong mensahe. Kokontakin ka namin sa lalong madaling panahon.',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#4CAF50'
+            });
+            this.reset();
+        } else {
+            throw new Error(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Replace error alert with SweetAlert2
+        Swal.fire({
+            title: 'Error!',
+            text: 'May error sa pagpapadala. Pakisubukan ulit.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#dc3545'
+        });
+    })
+    .finally(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    });
 });
 
 // Add this to your script.js
@@ -185,5 +225,76 @@ document.addEventListener('DOMContentLoaded', function() {
             behavior: 'smooth',
             block: 'start'
         });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Loader
+    setTimeout(function() {
+        document.querySelector('.loader-wrapper').style.display = 'none';
+    }, 2000);
+
+    // Team Modal Functionality
+    const teamMembers = document.querySelectorAll('.team-member');
+    const modal = document.getElementById('teamModal');
+    const closeButtons = document.querySelectorAll('.close-modal, .close-btn');
+    
+    teamMembers.forEach(member => {
+        member.addEventListener('click', () => {
+            const img = member.querySelector('img').src;
+            const name = member.querySelector('h3').textContent;
+            const title = member.dataset.title;
+            const phone = member.dataset.phone;
+            const email = member.dataset.email;
+            const bio = member.dataset.bio;
+
+            document.getElementById('modalImage').src = img;
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalPhone').textContent = phone;
+            document.getElementById('modalEmail').textContent = email;
+            document.getElementById('modalBio').textContent = bio || '';
+
+            modal.style.display = 'flex';
+        });
+    });
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    });
+
+    // Contact Form Submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+
+            // Show success message using SweetAlert2
+            Swal.fire({
+                title: 'Salamat!',
+                text: 'Natanggap na namin ang iyong mensahe. Makikipag-ugnayan kami sa iyo sa lalong madaling panahon.',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#4CAF50'
+            });
+
+            // Reset form
+            contactForm.reset();
+        });
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
     });
 });
