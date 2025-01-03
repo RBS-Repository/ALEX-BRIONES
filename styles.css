@@ -2464,8 +2464,9 @@ body.loading {
 /* Hero Section Mobile Styles */
 @media (max-width: 768px) {
     .hero {
-        min-height: 100vh;
+        min-height: 50vh;
         padding: 120px 0 60px;
+        margin-top: -100px;
     }
 
     .hero-content {

@@ -78,10 +78,29 @@ if (viewMoreBtn) {
     });
 }
 
-// Contact Form Handler
+// Clean up the contact form and scroll functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
+    // Get all buttons that should scroll to contact
+    const contactButtons = [
+        document.getElementById('sellingCtaButton'),
+        ...document.querySelectorAll('.cta-button.primary, .cta-button.secondary')
+    ];
     
+    // Add click event listener to each button
+    contactButtons.forEach(button => {
+        if (button) {
+            button.addEventListener('click', function() {
+                const contactSection = document.querySelector('.contact');
+                contactSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        }
+    });
+
+    // Contact Form Handler with Formspree
+    const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -91,10 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = 'Ipinapadala...';
             submitBtn.disabled = true;
 
-            // Get form data
             const formData = new FormData(this);
 
-            // Send to Formspree
             fetch(this.action, {
                 method: 'POST',
                 body: formData,
@@ -104,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => {
                 if (response.ok) {
-                    // Show success message
                     Swal.fire({
                         title: 'Salamat!',
                         text: 'Natanggap na namin ang iyong mensahe. Kokontakin ka namin sa lalong madaling panahon.',
@@ -112,14 +128,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         confirmButtonText: 'OK',
                         confirmButtonColor: '#4CAF50'
                     });
-                    // Reset form
                     contactForm.reset();
                 } else {
                     throw new Error('Oops! May error sa pagpapadala.');
                 }
             })
             .catch(error => {
-                // Show error message
                 Swal.fire({
                     title: 'Error!',
                     text: 'May error sa pagpapadala. Pakisubukan ulit.',
@@ -129,7 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             })
             .finally(() => {
-                // Reset button state
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             });
