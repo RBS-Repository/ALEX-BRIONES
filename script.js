@@ -78,62 +78,63 @@ if (viewMoreBtn) {
     });
 }
 
-// Contact form handler
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Contact Form Handler
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
     
-    const submitBtn = this.querySelector('.submit-btn');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Sending...';
-    submitBtn.disabled = true;
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Ipinapadala...';
+            submitBtn.disabled = true;
 
-    // Get form data
-    const formData = {
-        name: this.querySelector('#name').value,
-        email: this.querySelector('#email').value,
-        phone: this.querySelector('#phone').value,
-        message: this.querySelector('#message').value
-    };
+            // Get form data
+            const formData = new FormData(this);
 
-    // Send to our server
-    fetch('http://localhost:3000/send-email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            // Replace alert with SweetAlert2
-            Swal.fire({
-                title: 'Salamat!',
-                text: 'Natanggap na namin ang iyong mensahe. Kokontakin ka namin sa lalong madaling panahon.',
-                icon: 'success',
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#4CAF50'
+            // Send to Formspree
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    Swal.fire({
+                        title: 'Salamat!',
+                        text: 'Natanggap na namin ang iyong mensahe. Kokontakin ka namin sa lalong madaling panahon.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#4CAF50'
+                    });
+                    // Reset form
+                    contactForm.reset();
+                } else {
+                    throw new Error('Oops! May error sa pagpapadala.');
+                }
+            })
+            .catch(error => {
+                // Show error message
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'May error sa pagpapadala. Pakisubukan ulit.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#dc3545'
+                });
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             });
-            this.reset();
-        } else {
-            throw new Error(data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Replace error alert with SweetAlert2
-        Swal.fire({
-            title: 'Error!',
-            text: 'May error sa pagpapadala. Pakisubukan ulit.',
-            icon: 'error',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#dc3545'
         });
-    })
-    .finally(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    });
+    }
 });
 
 // Add this to your script.js
@@ -298,3 +299,46 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the button element
+    const sellingCtaButton = document.getElementById('sellingCtaButton,');
+    
+    // Add click event listener
+    sellingCtaButton.addEventListener('click', function() {
+        // Find the contact section
+        const contactSection = document.querySelector('.contact');
+        
+        // Smooth scroll to contact section
+        contactSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+});
+
+// Find all buttons that should scroll to contact section
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all buttons that should scroll to contact
+    const contactButtons = [
+        document.getElementById('sellingCtaButton'),
+        ...document.querySelectorAll('.cta-button.primary, .cta-button.secondary')
+    ];
+    
+    // Add click event listener to each button
+    contactButtons.forEach(button => {
+        if (button) {
+            button.addEventListener('click', function() {
+                // Find the contact section
+                const contactSection = document.querySelector('.contact');
+                
+                // Smooth scroll to contact section
+                contactSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        }
+    });
+});
+
