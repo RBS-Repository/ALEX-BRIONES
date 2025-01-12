@@ -355,3 +355,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Add intersection observer for selling tips section
+document.addEventListener('DOMContentLoaded', function() {
+    const sellingTips = document.querySelector('.selling-tips');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.2 // Trigger when 20% of the section is visible
+    });
+
+    if (sellingTips) {
+        sellingTips.classList.add('animate-on-scroll');
+        observer.observe(sellingTips);
+    }
+});
+
